@@ -81,7 +81,8 @@ namespace bookrestapi.Controllers
             _context.BookItems.Add(bookItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBookItem", new { id = bookItem.Id }, bookItem);
+            //return CreatedAtAction("GetBookItem", new { id = bookItem.Id }, bookItem);
+            return CreatedAtAction(nameof(GetBookItem), new { id = bookItem.Id }, bookItem);
         }
 
         // DELETE: api/BookItems/5
