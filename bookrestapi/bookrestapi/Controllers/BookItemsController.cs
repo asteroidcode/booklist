@@ -10,7 +10,7 @@ using bookrestapi.Models;
 
 namespace bookrestapi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/BookItems")]
     [ApiController]
     public class BookItemsController : ControllerBase
     {
