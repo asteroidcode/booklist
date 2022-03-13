@@ -8,8 +8,8 @@ const Button = () => {
   console.log("Button2", state.BookString);
   return(<div>
     <button onClick={() => dispatch({
-      type: 'changeBookString',
-      BookString: "newBookStringIsThis"
+      type: 'LOADING_BOOKS',
+      //BookString: "newBookStringIsThis"
     })}>{state.BookString} Press this once</button>
     <p> Halloumi </p>
     </div>)
