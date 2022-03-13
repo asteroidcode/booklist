@@ -23,14 +23,16 @@ namespace bookrestapi.Controllers
 
         // GET: api/BookItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookItem>>> GetBookItems()
+        public async Task<ActionResult<IEnumerable<BookItemDTO>>> GetBookItems()
         {
-            return await _context.BookItems.ToListAsync();
+            return await _context.BookItems
+                .Select(x => ItemToDTO(x))
+                .ToListAsync();
         }
 
         // GET: api/BookItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<BookItem>> GetBookItem(long id)
+        public async Task<ActionResult<BookItemDTO>> GetBookItem(long id)
         {
             var bookItem = await _context.BookItems.FindAsync(id);
 
@@ -39,18 +41,27 @@ namespace bookrestapi.Controllers
                 return NotFound();
             }
 
-            return bookItem;
+            return ItemToDTO(bookItem);
         }
 
         // PUT: api/BookItems/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBookItem(long id, BookItem bookItem)
+        public async Task<IActionResult> PutBookItem(long id, BookItemDTO bookItemDTO)
         {
-            if (id != bookItem.Id)
+            if (id != bookItemDTO.Id)
             {
                 return BadRequest();
             }
+
+            var bookItem = await _context.BookItems.FindAsync(id);
+            if (bookItem == null)
+            {
+                return NotFound();
+            }
+
+            bookItem.Title = bookItemDTO.Title;
+            bookItem.Author = bookItemDTO.Author;
+            bookItem.Description = bookItemDTO.Description;
 
             _context.Entry(bookItem).State = EntityState.Modified;
 
@@ -74,15 +85,20 @@ namespace bookrestapi.Controllers
         }
 
         // POST: api/BookItems
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<BookItem>> PostBookItem(BookItem bookItem)
+        public async Task<ActionResult<BookItemDTO>> PostBookItem(BookItemDTO bookItemDTO)
         {
+            var bookItem = new BookItem
+            {
+                Title = bookItemDTO.Title,
+                Author = bookItemDTO.Author,
+                Description = bookItemDTO.Description
+            };
+
             _context.BookItems.Add(bookItem);
             await _context.SaveChangesAsync();
 
-            //return CreatedAtAction("GetBookItem", new { id = bookItem.Id }, bookItem);
-            return CreatedAtAction(nameof(GetBookItem), new { id = bookItem.Id }, bookItem);
+            return CreatedAtAction(nameof(GetBookItem), new { id = bookItem.Id }, ItemToDTO(bookItem));
         }
 
         // DELETE: api/BookItems/5
@@ -105,5 +121,15 @@ namespace bookrestapi.Controllers
         {
             return _context.BookItems.Any(e => e.Id == id);
         }
+
+        private static BookItemDTO ItemToDTO(BookItem bookItem) =>
+            new BookItemDTO
+            {
+                Id = bookItem.Id,
+                Title = bookItem.Title,
+                Author = bookItem.Author,
+                Description = bookItem.Description
+            };
+
     }
 }
