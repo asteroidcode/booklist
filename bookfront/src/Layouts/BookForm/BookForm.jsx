@@ -7,9 +7,9 @@ const BookForm = ({openItem, changeItem}) => {
   
   const [state] = useStateValue();
 
-  const [title, setTitle] = useState("Bears Discover Fire");
-  const [author, setAuthor] = useState("J. K. Rowling");
-  const [description, setDescription] = useState("Paljon tekstiä");
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     if (!openItem) {
