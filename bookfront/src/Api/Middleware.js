@@ -1,26 +1,24 @@
+
 import {loadBookItems} from "./ServerApi";
+import {statuses} from "../State/statuses";
 
-class Middleware {
+const Middleware = async (action) => {
 
-    sw(state, action) {
-
-      console.log("ACTION MIDDLEWARE", action);
-      switch(action.type) {
-        case "LOADING_BOOKS":
-          try {
-            const result = loadBookItems();
-            console.log(result);
-            return(state, {type: "LOAD_BOOKS_SUCCESS"});
-          }
-          catch (err) {
-            console.log(err);
-            return(state, {type: "LOAD_BOOKS_FAILED"});
-          }
-        default:
-          console.log();
-          return(state, action);
+  console.log("ACTION MIDDLEWARE", action);
+  switch(action.type) {
+    case statuses.LOADING_BOOKS:
+      try {
+        const res = await loadBookItems();
+        console.log("Middleware success", res);
+        return({type: statuses.LOAD_BOOKS_SUCCESS, data: res, code: res.status});
       }
-    }
+      catch (err) {
+        console.log(err);
+        return({type: statuses.LOAD_BOOKS_FAILED, data: [], code: err.response});
+      }
+    default:
+      return(action);
+  }
     
 }
 
