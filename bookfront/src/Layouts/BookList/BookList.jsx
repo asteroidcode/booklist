@@ -36,11 +36,10 @@ const BookList = () => {
             <hr/>
             <p>Title: {book.title}</p>
             <p>Author: {book.author}</p>
-            <p>Description: {book.description}</p>
           </div>)
       })
       }
-      <Button text={state.BookString} onButtonPress={getBookList}/>
+      <Button text={"Load book list"} onButtonPress={getBookList}/>
     </div>
   )}
 
@@ -59,7 +58,7 @@ const BookList = () => {
 
   return(
   <>
-    <Button/>
+    <Button text={"Get book list"} onButtonPress={getBookList}/>
     <div>No data</div>
   </>
   )
