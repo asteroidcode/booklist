@@ -1,12 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import BookList from '../BookList/BookList';
 import BookForm from '../BookForm/BookForm';
 
 const ListAndFormLayout = () => {
+
+  const [openBookItem, setOpenBookItem] = useState(null);
+
   return(
     <div className="flex-container">
-      <div style={{flexGrow: 5}}><BookList/></div>
-      <div style={{flexGrow: 5}}><BookForm/></div>
+      <div style={{flexGrow: 5}}>
+        <BookForm openItem={openBookItem} changeItem={setOpenBookItem}/>
+      </div>
+      <div style={{flexGrow: 5}}>
+        <BookList openItem={openBookItem} changeItem={setOpenBookItem}/>
+      </div>
     </div>
   )
 }

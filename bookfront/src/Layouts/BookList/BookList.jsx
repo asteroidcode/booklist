@@ -4,8 +4,10 @@ import {useStateValue} from '../../State/index';
 import Button from "../../Components/Button";
 import Middleware from '../../Api/Middleware';
 import {statuses} from "../../State/statuses";
+import ButtonBase from "@mui/material/ButtonBase";
+import Typography from "@mui/material/Typography";
 
-const BookList = () => {
+const BookList = ({openItem, changeItem}) => {
 
   const [state, dispatch] = useStateValue();
   
@@ -26,31 +28,45 @@ const BookList = () => {
     })  
   }
   
+  const changeActiveBook = (bookId) => {
+    if (openItem === bookId) {
+      changeItem(null);
+    }
+    else {
+      changeItem(bookId);
+    }
+  }
+
   if(state.bookliststatus === statuses.LOAD_BOOKS_SUCCESS) {
     return(
       <div>
-        <p>List of Books</p>
+        <Typography component="h1" variant="h5">List of Books</Typography>
         {state.BookList.map((book) => {
           return(
           <div key={book.id}>
-            <hr/>
-            <p>Title: {book.title}</p>
-            <p>Author: {book.author}</p>
+            <hr style={{maxWidth: "300px"}}/>
+            <ButtonBase onClick={() => changeActiveBook(book.id)}>
+              <Typography>
+              Title: {book.title}<br/>
+              Author: {book.author}
+              </Typography>
+            </ButtonBase>
           </div>)
       })
       }
+      <hr style={{maxWidth: "300px"}}/>
       <Button text={"Load book list"} onButtonPress={getBookList}/>
     </div>
   )}
 
   if(state.bookliststatus === statuses.LOADING_BOOKS) {
-    return <p>Loading book list</p>
+    return <Typography>Loading book list</Typography>
   }
 
   if(state.bookliststatus === statuses.LOAD_BOOKS_FAILED) {
     return(
       <>
-        <p>List of books could not be loaded.</p>
+        <Typography>List of books could not be loaded.</Typography>
         <Button text={"Try again"} onButtonPress={getBookList}/>
       </>
     )
