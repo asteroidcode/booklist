@@ -57,7 +57,7 @@ const BookForm = ({openItem, changeItem}) => {
         fullWidth
         minRows={3}
         maxRows={10}
-        sx={{marginTop: "1rem", marginBottom: "1rem", maxWidth:"800px"}}
+        sx={{marginTop: "1rem", marginBottom: "1rem", maxWidth:"600px"}}
       /><br/>
       <Button text="Save New" variant="contained" sxStyle={{margin: "2px"}}/>
       <Button text="Save" variant="contained" sxStyle={{margin: "2px"}}/>
