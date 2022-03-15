@@ -28,7 +28,7 @@ const Middleware = async (action) => {
         return({type: statuses.SAVE_NEW_BOOK_FAILED, data: [], code: err.response});
       }
     default:
-      return(action);
+      //return(action);
   }
     
 }

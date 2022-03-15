@@ -10,9 +10,9 @@ export const loadBookItems = async () => {
 export const saveNewBook = async (action) => {
   console.log("action saveNewBook", action);
   const response = await axios.post('api/BookItems', {
-    Title: action.payload.title,
-    Author: action.payload.author,
-    Description: action.payload.description
+    Title: action.payload.Title,
+    Author: action.payload.Author,
+    Description: action.payload.Description
   }
   );
   console.log(response);  
