@@ -55,7 +55,6 @@ const BookList = ({openItem, changeItem}) => {
       })
       }
       <hr style={{maxWidth: "300px"}}/>
-      <Button text={"Load book list"} onButtonPress={getBookList}/>
     </div>
   )}
 

@@ -53,7 +53,10 @@ const BookForm = ({openItem, changeItem}) => {
         helperText=""
         size="small"
         onChange={(e) => setTitle(e.target.value)}
-      /><br/>
+      />
+      <br/>
+      { title && <span>{title.length + " / 200"}</span> }
+      <br/>
       <TextField
         id="form-author"
         label="Author"
@@ -62,7 +65,10 @@ const BookForm = ({openItem, changeItem}) => {
         size="small"
         sx={{marginTop: "1rem"}}
         onChange={(e) => setAuthor(e.target.value)}
-      /><br/>
+      />
+      <br/>
+      { author && <span>{author.length + " / 200"}</span> }
+      <br/>
       <TextField
         id="form-description"
         label="Description"
@@ -72,14 +78,17 @@ const BookForm = ({openItem, changeItem}) => {
         fullWidth
         minRows={3}
         maxRows={10}
-        sx={{marginTop: "1rem", marginBottom: "1rem", maxWidth:"600px"}}
+        sx={{marginTop: "1rem", maxWidth:"400px"}}
         onChange={(e) => setDescription(e.target.value)}
-      />{descriptionWarning}
-      { description && <span>{description.length + " / 5000"}</span> }
-     <br/>
-      <Button text="Save New" variant="contained" sxStyle={{margin: "2px"}}/>
-      <Button text="Save" variant="contained" sxStyle={{margin: "2px"}}/>
-      <Button text="Delete" variant="contained" sxStyle={{margin: "2px"}}/>
+      />
+      { description && <p>{description.length + " / 5000"}</p> }
+      {descriptionWarning}
+      <br/>
+      <div style={{marginTop:"10px"}}>
+        <Button text="Save New" variant="contained" sxStyle={{margin: "2px"}}/>
+        <Button text="Save" variant="contained" sxStyle={{margin: "2px"}}/>
+        <Button text="Delete" variant="contained" sxStyle={{margin: "2px"}}/>
+      </div>
     </div>
 
 
