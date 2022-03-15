@@ -2,17 +2,21 @@ import React, {useEffect, useState} from 'react';
 import TextField from "@mui/material/TextField";
 import Button from "../../Components/Button";
 import {useStateValue} from "../../State";
-import Typography from "@mui/material/Typography";
+import Middleware from '../../Api/Middleware';
+import {statuses} from "../../State/statuses";
+//import Typography from "@mui/material/Typography";
 
 const BookForm = ({openItem, changeItem}) => {
   
-  const [state] = useStateValue();
+  const [state, dispatch] = useStateValue();
 
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
 
   const [descriptionWarning, setDescriptionWarning] = useState("");
+
+  const [newSaveActive, setNewSaveActive] = useState(false);
 
   useEffect(() => {
     if (!openItem) {
@@ -41,6 +45,40 @@ const BookForm = ({openItem, changeItem}) => {
       setDescriptionWarning("");
     }
   }, [description]);
+
+  useEffect(() => {
+    if ( title.length > 0 && author.length > 0 && description.length > -1 &&
+      title.length < 201 && author.length < 201 && description.length < 5001) {  
+      setNewSaveActive(true);
+    }
+    else {
+      setNewSaveActive(false);
+    }
+  }, [title, author, description]);
+
+  const saveNew = async () => {
+     console.log("1")
+    if(title.length < 201 && author.length < 201 && description.length < 5001) {
+
+      dispatch({type: statuses.SAVING_NEW_BOOK});
+      const result = await Middleware({
+        type: statuses.SAVING_NEW_BOOK,
+        payload: {
+          Title: title,
+          Author: author,
+          Description: description
+        }
+      });
+      console.log("2")
+      console.log("BL result", result)    
+      dispatch({
+        type: result.type,
+        payload: result.data,
+        code: result.code
+      })  
+    }
+
+  }
 
 
   return(
@@ -85,7 +123,8 @@ const BookForm = ({openItem, changeItem}) => {
       {descriptionWarning}
       <br/>
       <div style={{marginTop:"10px"}}>
-        <Button text="Save New" variant="contained" sxStyle={{margin: "2px"}}/>
+        <button onClick={saveNew}>Save New</button>
+        <Button text="Save New" disabled={!newSaveActive} onClick={saveNew} variant="contained" sxStyle={{margin: "2px"}}/>
         <Button text="Save" variant="contained" sxStyle={{margin: "2px"}}/>
         <Button text="Delete" variant="contained" sxStyle={{margin: "2px"}}/>
       </div>
