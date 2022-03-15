@@ -43,7 +43,7 @@ const BookList = ({openItem, changeItem}) => {
         <Typography component="h1" variant="h5">List of Books</Typography>
         {state.BookList.map((book) => {
           return(
-          <div key={book.id}>
+          <div style={book.id === openItem ? {backgroundColor: "#eeeeee"} : {}} key={book.id}>
             <hr style={{maxWidth: "300px"}}/>
             <ButtonBase onClick={() => changeActiveBook(book.id)}>
               <Typography>
