@@ -16,5 +16,9 @@ export const useStateValue = () => useContext(StateContext);
 export const initialState = {
   BookList: [],
   BookString: "Books",
-  bookliststatus: "NOT_LOADED"
+  bookliststatus: "NOT_LOADED",
+  SaveNewBook: {
+    status: "NOT_LOADED",
+    code: undefined
+  }
 }

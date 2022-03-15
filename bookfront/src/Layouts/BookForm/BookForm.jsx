@@ -4,9 +4,9 @@ import Button from "../../Components/Button";
 import {useStateValue} from "../../State";
 import Middleware from '../../Api/Middleware';
 import {statuses} from "../../State/statuses";
-//import Typography from "@mui/material/Typography";
+import Modal from "../../Components/Modal";
 
-const BookForm = ({openItem, changeItem}) => {
+const BookForm = ({openItem, changeItem, getBookList}) => {
   
   const [state, dispatch] = useStateValue();
 
@@ -25,7 +25,7 @@ const BookForm = ({openItem, changeItem}) => {
       setDescription("");
     }
     else {
-      console.log("BookList ja openItem", state.BookList, openItem);
+      //console.log("BookList ja openItem", state.BookList, openItem);
       if(state && state.BookList) {
         const activeBook = state.BookList.find(x => x.id === openItem)
         console.log("activeBook", activeBook);
@@ -39,7 +39,6 @@ const BookForm = ({openItem, changeItem}) => {
   useEffect(() => {
     if (description && description.length > 5000) {
       setDescriptionWarning("Over the character limit ");
-      console.log("settingwarning")
     }
     else {
       setDescriptionWarning("");
@@ -56,8 +55,8 @@ const BookForm = ({openItem, changeItem}) => {
     }
   }, [title, author, description]);
 
-  const saveNew = async () => {
-     console.log("1")
+
+  const saveNewBook = async () => {
     if(title.length < 201 && author.length < 201 && description.length < 5001) {
 
       dispatch({type: statuses.SAVING_NEW_BOOK});
@@ -69,15 +68,16 @@ const BookForm = ({openItem, changeItem}) => {
           Description: description
         }
       });
-      console.log("2")
-      console.log("BL result", result)    
       dispatch({
         type: result.type,
         payload: result.data,
         code: result.code
       })  
+      if (result.type === statuses.SAVE_NEW_BOOK_SUCCESS ||
+        result.type === statuses.SAVE_NEW_BOOK_FAILED) {
+          getBookList();
+        }
     }
-
   }
 
 
@@ -123,13 +123,13 @@ const BookForm = ({openItem, changeItem}) => {
       {descriptionWarning}
       <br/>
       <div style={{marginTop:"10px"}}>
-        <button onClick={saveNew}>Save New</button>
-        <Button text="Save New" disabled={!newSaveActive} onClick={saveNew} variant="contained" sxStyle={{margin: "2px"}}/>
+        <button onClick={saveNewBook}>Save New</button>
+        <Button text="Save New" disabled={!newSaveActive} onClick={saveNewBook} variant="contained" sxStyle={{margin: "2px"}}/>
         <Button text="Save" variant="contained" sxStyle={{margin: "2px"}}/>
         <Button text="Delete" variant="contained" sxStyle={{margin: "2px"}}/>
       </div>
-    </div>
 
+    </div>
 
   )
 }

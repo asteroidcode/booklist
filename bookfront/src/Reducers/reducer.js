@@ -25,7 +25,33 @@ export const reducer = (state, action) => {
         bookliststatus: action.type,
         code: action.code
       }
-    
+  //SAVE NEW BOOK    
+    case statuses.SAVING_NEW_BOOK:
+      return {
+        ...state,
+        SaveNewBook: {
+          status: action.type
+        }
+      }
+    case statuses.SAVE_NEW_BOOK_SUCCESS: 
+      console.log("HIT IT", action.payload.data)
+      return {
+        ...state,
+        SaveNewBook: {
+          status: action.type,
+          code: action.code,
+        }
+      }
+    case statuses.SAVE_NEW_BOOK_FAILED:
+      return {
+        ...state,
+        SaveNewBook: {
+          status: action.type,
+          code: action.code
+        }
+      }
+
+
     default: 
       return state;
   }
