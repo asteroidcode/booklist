@@ -56,6 +56,10 @@ const BookList = ({openItem, changeItem, getBookList}) => {
   )
 }
 
+const StyledHr = () => {
+  return( <hr style={{maxWidth: "300px"}}/>)
+}
+
 export const BookListSuccess = ({openItem, changeActiveBook, booksdata}) => {
 
   return(
@@ -64,16 +68,16 @@ export const BookListSuccess = ({openItem, changeActiveBook, booksdata}) => {
       {booksdata.BookList.map((book, index) => {
         return(
           <div style={book.id === openItem ? {backgroundColor: "#eeeeee"} : {}} key={book.id}>
-            <hr style={{maxWidth: "300px"}}/>
+           <StyledHr/>
             <ButtonBase onClick={() => changeActiveBook(book.id)}>
-              <Typography data-testid={"booktitle-" + index}>Title: {book.title}</Typography>
-              <Typography data-testid={"bookauthor-" + index}>Author: {book.author}</Typography>
+              <p data-testid={"booktitle-" + index}>Title: {book.title}</p>
+              <p data-testid={"bookauthor-" + index}>Author: {book.author}</p>
             </ButtonBase>
           </div>
         )
         })
         }
-      <hr style={{maxWidth: "300px"}}/>
+      <StyledHr/>
     </div>
   )
 

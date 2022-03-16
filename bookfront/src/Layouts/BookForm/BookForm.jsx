@@ -16,6 +16,8 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
 
   const [allLengthsOK, setAllLengthsOK] = useState(false);
 
+  const [showSaveNewBookFailNoti, setShowSaveNewBookFailNoti] = useState(false);
+
   useEffect(() => {
     if (!openItem) {
       setTitle("");
@@ -62,6 +64,9 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
       })  
       if (result.type === types.SAVE_NEW_BOOK_SUCCESS) {
         changeItem(result.data.id);
+      }
+      if (result.type === types.SAVE_NEW_BOOK_FAILED) {
+        setShowSaveNewBookFailNoti(true);
       }
       getBookList();
     }
@@ -145,11 +150,14 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
       />
       { description && <p>{description.length + " / 5000"}</p> }
       <br/>
+
       <div style={{marginTop:"10px"}}>
         <Button text="Save New" disabled={!(allLengthsOK && state.SaveNewBook.status !== types.SAVING_NEW_BOOK)} onButtonPress={saveNewBook} variant="contained" sxStyle={{margin: "2px"}}/>
         <Button text="Save" disabled={!(openItem && allLengthsOK && state.EditBook.status !== types.EDITING_BOOK)} variant="contained" onButtonPress={saveEditBook} sxStyle={{margin: "2px"}}/>
         <Button text="Delete" disabled={!openItem || state.DeleteBook.status === types.DELETING_BOOK} variant="contained" onButtonPress={deleteBook} sxStyle={{margin: "2px"}}/>
       </div>
+
+      <Modal isOpen={showSaveNewBookFailNoti} onClose={() => setShowSaveNewBookFailNoti(false)} text="Saving the new book data failed"/>
 
     </div>
 
