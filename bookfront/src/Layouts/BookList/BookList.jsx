@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useStateValue} from '../../State/index';
 import Button from "../../Components/Button";
 import {types} from "../../State/types";
@@ -9,7 +9,12 @@ import Typography from "@mui/material/Typography";
 const BookList = ({openItem, changeItem, getBookList}) => {
 
   const [state] = useStateValue();
+
   
+  useEffect(() => {
+    console.log("state", state);
+  }, [state])
+
   const changeActiveBook = (bookId) => {
     if (openItem === bookId) {
       changeItem(null);
@@ -18,6 +23,7 @@ const BookList = ({openItem, changeItem, getBookList}) => {
       changeItem(bookId);
     }
   }
+
 
   if(state.Books.status === types.LOAD_BOOKS_SUCCESS){
     return(
@@ -43,27 +49,25 @@ const BookList = ({openItem, changeItem, getBookList}) => {
   }
 
   return(
-  <>
-    <Button text={"Get book list"} onButtonPress={getBookList}/>
-    <div>No data</div>
-  </>
+    <>
+      <Button text={"Get book list"} onButtonPress={getBookList}/>
+      <div>No data</div>
+    </>
   )
 }
 
-const BookListSuccess = ({openItem, changeActiveBook, booksdata}) => {
+export const BookListSuccess = ({openItem, changeActiveBook, booksdata}) => {
 
   return(
     <div>
       <Typography component="h1" variant="h5">List</Typography>
-      {booksdata.BookList.map((book) => {
+      {booksdata.BookList.map((book, index) => {
         return(
           <div style={book.id === openItem ? {backgroundColor: "#eeeeee"} : {}} key={book.id}>
             <hr style={{maxWidth: "300px"}}/>
             <ButtonBase onClick={() => changeActiveBook(book.id)}>
-              <Typography>
-              Title: {book.title}<br/>
-              Author: {book.author}
-              </Typography>
+              <Typography data-testid={"booktitle-" + index}>Title: {book.title}</Typography>
+              <Typography data-testid={"bookauthor-" + index}>Author: {book.author}</Typography>
             </ButtonBase>
           </div>
         )
