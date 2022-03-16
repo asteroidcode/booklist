@@ -21,7 +21,13 @@ export const saveNewBook = async (action) => {
 
 export const saveEditBook = async (action) => {
   console.log("action saveEditBook", action);
-  const response = await axios.put('api/BookItems/'+action.Id);
+  const address = 'api/BookItems/'+action.payload.Id;
+  const response = await axios.put(address, {
+    Id: action.payload.Id,
+    Title: action.payload.Title,
+    Author: action.payload.Author,
+    Description: action.payload.Description
+  });
   console.log(response);  
   return(response);
 }

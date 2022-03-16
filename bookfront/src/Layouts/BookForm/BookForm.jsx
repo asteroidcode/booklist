@@ -70,6 +70,7 @@ const BookForm = ({openItem, getBookList}) => {
       const result = await Middleware({
         type: types.SAVING_NEW_BOOK,
         payload: {
+          Id: openItem,
           Title: title,
           Author: author,
           Description: description
