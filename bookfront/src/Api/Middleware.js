@@ -1,31 +1,50 @@
 
-import {loadBookItems, saveNewBook} from "./ServerApi";
-import {statuses} from "../State/statuses";
+import {loadBookItems, saveNewBook, saveEditBook, deleteBook} from "./ServerApi";
+import {types} from "../State/types";
 
 const Middleware = async (action) => {
 
   console.log("ACTION MIDDLEWARE", action);
   switch(action.type) {
-    case statuses.LOADING_BOOKS:
+    case types.LOADING_BOOKS:
       try {
         const res = await loadBookItems();
         console.log("Middleware success", res);
-        return({type: statuses.LOAD_BOOKS_SUCCESS, data: res, code: res.status});
+        return({type: types.LOAD_BOOKS_SUCCESS, data: res, code: res.status});
       }
       catch (err) {
         console.log(err);
-        return({type: statuses.LOAD_BOOKS_FAILED, data: [], code: err.response});
+        return({type: types.LOAD_BOOKS_FAILED, data: [], code: err.response});
       }
-    case statuses.SAVING_NEW_BOOK:
-      console.log("3", action.payload)
+    case types.SAVING_NEW_BOOK:
       try {
         const res = await saveNewBook(action);
         console.log("Middleware success", res);
-        return({type: statuses.SAVE_NEW_BOOK_SUCCESS, data: res, code: res.status});
+        return({type: types.SAVE_NEW_BOOK_SUCCESS, data: res, code: res.status});
       }
       catch (err) {
         console.log(err);
-        return({type: statuses.SAVE_NEW_BOOK_FAILED, data: [], code: err.response});
+        return({type: types.SAVE_NEW_BOOK_FAILED, data: [], code: err.response});
+      }
+    case types.EDITING_BOOK:
+      try {
+        const res = await saveEditBook(action);
+        console.log("Middleware success", res);
+        return({type: types.EDIT_BOOK_SUCCESS, data: res, code: res.status});
+      }
+      catch (err) {
+        console.log(err);
+        return({type: types.EDIT_BOOK_FAILED, data: [], code: err.response});
+      }
+    case types.DELETING_BOOK:
+      try {
+        const res = await deleteBook(action);
+        console.log("Middleware success", res);
+        return({type: types.DELETE_BOOK_SUCCESS, data: res, code: res.status});
+      }
+      catch (err) {
+        console.log(err);
+        return({type: types.DELETE_BOOK_FAILED, data: [], code: err.response});
       }
     default:
       //return(action);

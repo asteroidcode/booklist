@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import BookList from '../BookList/BookList';
 import BookForm from '../BookForm/BookForm';
 import {useStateValue} from '../../State/index';
-import {statuses} from "../../State/statuses";
+import {types} from "../../State/types";
 import Middleware from '../../Api/Middleware';
 
 const ListAndFormLayout = () => {
@@ -12,11 +12,10 @@ const ListAndFormLayout = () => {
   const [openBookItem, setOpenBookItem] = useState(null);
 
   const getBookList = async () => {
-    dispatch({type: statuses.LOADING_BOOKS});
+    dispatch({type: types.LOADING_BOOKS});
     const result = await Middleware({
-      type: statuses.LOADING_BOOKS,
-    });
-    console.log("BL result", result)    
+      type: types.LOADING_BOOKS,
+    }); 
     dispatch({
       type: result.type,
       payload: result.data,

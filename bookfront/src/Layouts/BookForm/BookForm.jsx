@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "../../Components/Button";
 import {useStateValue} from "../../State";
 import Middleware from '../../Api/Middleware';
-import {statuses} from "../../State/statuses";
+import {types} from "../../State/types";
 import Modal from "../../Components/Modal";
 
 const BookForm = ({openItem, changeItem, getBookList}) => {
@@ -59,9 +59,9 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
   const saveNewBook = async () => {
     if(title.length < 201 && author.length < 201 && description.length < 5001) {
 
-      dispatch({type: statuses.SAVING_NEW_BOOK});
+      dispatch({type: types.SAVING_NEW_BOOK});
       const result = await Middleware({
-        type: statuses.SAVING_NEW_BOOK,
+        type: types.SAVING_NEW_BOOK,
         payload: {
           Title: title,
           Author: author,
@@ -70,16 +70,52 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
       });
       dispatch({
         type: result.type,
-        payload: result.data,
-        code: result.code
+        payload: result.data
       })  
-      if (result.type === statuses.SAVE_NEW_BOOK_SUCCESS ||
-        result.type === statuses.SAVE_NEW_BOOK_FAILED) {
+
+      if (result.type === types.SAVE_NEW_BOOK_SUCCESS ||
+        result.type === types.SAVE_NEW_BOOK_FAILED) {
           getBookList();
         }
     }
   }
 
+  const saveEditBook = async () => {
+    if(title.length < 201 && author.length < 201 && description.length < 5001) { 
+
+      dispatch({type: types.EDITING_BOOK});
+      const result = await Middleware({
+        type: types.EDITING_BOOK,
+        payload: {
+          Id: openItem,
+          Title: title,
+          Author: author,
+          Description: description
+        }
+      });
+      dispatch({
+        type: result.type,
+        payload: result.data,
+      }) 
+
+    }
+  }
+
+  const deleteBook = async () => {
+
+    dispatch({type: types.DELETING_BOOK});
+    const result = await Middleware({
+      type: types.DELETING_BOOK,
+      payload: {
+        Id: openItem
+      }
+    });
+    dispatch({
+      type: result.type,
+      payload: result.data
+    }) 
+
+  }
 
   return(
 
@@ -123,10 +159,9 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
       {descriptionWarning}
       <br/>
       <div style={{marginTop:"10px"}}>
-        <button onClick={saveNewBook}>Save New</button>
-        <Button text="Save New" disabled={!newSaveActive} onClick={saveNewBook} variant="contained" sxStyle={{margin: "2px"}}/>
-        <Button text="Save" variant="contained" sxStyle={{margin: "2px"}}/>
-        <Button text="Delete" variant="contained" sxStyle={{margin: "2px"}}/>
+        <Button text="Save New" disabled={!newSaveActive} onButtonPress={saveNewBook} variant="contained" sxStyle={{margin: "2px"}}/>
+        <Button text="Save" variant="contained" onButtonPress={saveEditBook} sxStyle={{margin: "2px"}}/>
+        <Button text="Delete" variant="contained" onButtonPress={deleteBook} sxStyle={{margin: "2px"}}/>
       </div>
 
     </div>

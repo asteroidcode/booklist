@@ -2,7 +2,7 @@
 import React, {useEffect} from 'react';
 import {useStateValue} from '../../State/index';
 import Button from "../../Components/Button";
-import {statuses} from "../../State/statuses";
+import {types} from "../../State/types";
 import ButtonBase from "@mui/material/ButtonBase";
 import Typography from "@mui/material/Typography";
 
@@ -14,8 +14,6 @@ const BookList = ({openItem, changeItem, getBookList}) => {
     getBookList();
   }, []);
 
-
-  
   const changeActiveBook = (bookId) => {
     if (openItem === bookId) {
       changeItem(null);
@@ -25,11 +23,11 @@ const BookList = ({openItem, changeItem, getBookList}) => {
     }
   }
 
-  if(state.bookliststatus === statuses.LOAD_BOOKS_SUCCESS) {
+  if(state.Books.status === types.LOAD_BOOKS_SUCCESS) {
     return(
       <div>
         <Typography component="h1" variant="h5">List of Books</Typography>
-        {state.BookList.map((book) => {
+        {state.Books.BookList.map((book) => {
           return(
           <div style={book.id === openItem ? {backgroundColor: "#eeeeee"} : {}} key={book.id}>
             <hr style={{maxWidth: "300px"}}/>
@@ -46,11 +44,11 @@ const BookList = ({openItem, changeItem, getBookList}) => {
     </div>
   )}
 
-  if(state.bookliststatus === statuses.LOADING_BOOKS) {
+  if(state.Books.status === types.LOADING_BOOKS) {
     return <Typography>Loading book list</Typography>
   }
 
-  if(state.bookliststatus === statuses.LOAD_BOOKS_FAILED) {
+  if(state.Books.status === types.LOAD_BOOKS_FAILED) {
     return(
       <>
         <Typography>List of books could not be loaded.</Typography>

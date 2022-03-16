@@ -18,3 +18,17 @@ export const saveNewBook = async (action) => {
   console.log(response);  
   return(response);
 }
+
+export const saveEditBook = async (action) => {
+  console.log("action saveEditBook", action);
+  const response = await axios.put('api/BookItems/'+action.Id);
+  console.log(response);  
+  return(response);
+}
+
+export const deleteBook = async (action) => {
+  console.log("action deleteBook", action);
+  const response = await axios.delete('api/BookItems/'+action.Id);
+  console.log(response);  
+  return(response);
+}

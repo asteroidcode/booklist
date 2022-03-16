@@ -1,56 +1,99 @@
-import {statuses} from "../State/statuses";
+import {types} from "../State/types";
 
 export const reducer = (state, action) => {
 
-  console.log("App.js state, action", state, action);
+  console.log("App.js, action", action);
   
   switch (action.type) {
-    case statuses.LOADING_BOOKS:
+    case types.LOADING_BOOKS:
       return {
         ...state,
-        bookliststatus: action.type
+        Books: {
+          status: action.type
+        }
       }
-    case statuses.LOAD_BOOKS_SUCCESS: 
-      console.log("HIT IT", action.payload.data)
+    case types.LOAD_BOOKS_SUCCESS: 
       return {
         ...state,
-        BookList: action.payload.data,
-        bookliststatus: action.type,
-        code: action.code
+        Books: {
+          BookList: action.payload.data,
+          status: action.type,
+        }
       }
-    case statuses.LOAD_BOOKS_FAILED:
+    case types.LOAD_BOOKS_FAILED:
       return {
         ...state,
-        BookList: [],
-        bookliststatus: action.type,
-        code: action.code
+        Books: {
+          BookList: [],
+          status: action.type,
+        }
       }
   //SAVE NEW BOOK    
-    case statuses.SAVING_NEW_BOOK:
+    case types.SAVING_NEW_BOOK:
       return {
         ...state,
         SaveNewBook: {
           status: action.type
         }
       }
-    case statuses.SAVE_NEW_BOOK_SUCCESS: 
-      console.log("HIT IT", action.payload.data)
+    case types.SAVE_NEW_BOOK_SUCCESS: 
       return {
         ...state,
         SaveNewBook: {
           status: action.type,
-          code: action.code,
         }
       }
-    case statuses.SAVE_NEW_BOOK_FAILED:
+    case types.SAVE_NEW_BOOK_FAILED:
       return {
         ...state,
         SaveNewBook: {
-          status: action.type,
-          code: action.code
+          status: action.type
         }
       }
-
+  //EDIT BOOK
+    case types.EDITING_BOOK:
+      return {
+        ...state,
+        EditBook: {
+          status: action.type
+        }
+      }
+    case types.EDIT_BOOK_SUCCESS:
+      return {
+        ...state,
+        EditBook: {
+          status: action.type
+        }
+      }
+    case types.EDIT_BOOK_FAILED:
+      return {
+        ...state,
+        EditBook: {
+          status: action.type
+        }
+      }
+  //DELETE BOOK
+    case types.DELETING_BOOK:
+      return {
+        ...state,
+        DeleteBook: {
+          status: action.type
+        }
+      }
+    case types.DELETE_BOOK_SUCCESS:
+      return {
+        ...state,
+        DeleteBook: {
+          status: action.type
+        }
+      }
+    case types.DELETE_BOOK_FAILED:
+      return {
+        ...state,
+        DeleteBook: {
+          status: action.type
+        }
+      }
 
     default: 
       return state;
