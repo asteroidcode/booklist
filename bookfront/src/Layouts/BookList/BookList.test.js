@@ -6,7 +6,7 @@ import {BookListSuccess} from './BookList';
 const openItem = jest.fn();
 const changeActiveBook = jest.fn();
 
-const books =
+const bookarr =
 [
   {
       "id": 16,
@@ -22,33 +22,37 @@ const books =
   }
 ]
 
-const books1 = {BookList: books}
+const books = {BookList: bookarr}
 
-test("BookListSuccess displays second book's Title", () => {
-  render(<BookListSuccess 
-    openItem={openItem} 
-    changeActiveBook={changeActiveBook}
-    booksdata={books1}/>);
+describe("Book List", () => {
+  
+  test("BookListSuccess displays second book's Title", () => {
+    render(<BookListSuccess 
+      openItem={openItem} 
+      changeActiveBook={changeActiveBook}
+      booksdata={books}/>);
 
-  expect(screen.getByTestId("booktitle-1")).toHaveTextContent("Title: Lord of the Rings");
-});
+    expect(screen.getByTestId("booktitle-1")).toHaveTextContent("Title: Lord of the Rings");
+  });
 
-test("BookListSuccess displays first book's Author", () => {
-  render(<BookListSuccess 
-    openItem={openItem} 
-    changeActiveBook={changeActiveBook}
-    booksdata={books1}/>);
+  test("BookListSuccess displays first book's Author", () => {
+    render(<BookListSuccess 
+      openItem={openItem} 
+      changeActiveBook={changeActiveBook}
+      booksdata={books}/>);
 
-  expect(screen.getByTestId('bookauthor-0')).toHaveTextContent("J. K. Rowling");
-});
+    expect(screen.getByTestId('bookauthor-0')).toHaveTextContent("J. K. Rowling");
+  });
 
-test("Clicking BookListSuccess's second button calls changeActiveBook with the right Id", () => {
-  render(<BookListSuccess 
-    openItem={openItem} 
-    changeActiveBook={changeActiveBook}
-    booksdata={books1}/>);
+  test("Clicking BookListSuccess's second button calls changeActiveBook with the right Id", () => {
+    render(<BookListSuccess 
+      openItem={openItem} 
+      changeActiveBook={changeActiveBook}
+      booksdata={books}/>);
 
-    fireEvent.click(screen.getByText("Title: Lord of the Rings"));
+      fireEvent.click(screen.getByText("Title: Lord of the Rings"));
 
-    expect(changeActiveBook).toHaveBeenCalledWith(17);
+      expect(changeActiveBook).toHaveBeenCalledWith(17);
+  })
+
 })
