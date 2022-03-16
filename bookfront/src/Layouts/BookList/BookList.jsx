@@ -19,27 +19,15 @@ const BookList = ({openItem, changeItem, getBookList}) => {
     }
   }
 
-  if(state.Books.status === types.LOAD_BOOKS_SUCCESS) {
+  if(state.Books.status === types.LOAD_BOOKS_SUCCESS){
     return(
-      <div>
-        <Typography component="h1" variant="h5">List</Typography>
-        {state.Books.BookList.map((book) => {
-          return(
-            <div style={book.id === openItem ? {backgroundColor: "#eeeeee"} : {}} key={book.id}>
-              <hr style={{maxWidth: "300px"}}/>
-              <ButtonBase onClick={() => changeActiveBook(book.id)}>
-                <Typography>
-                Title: {book.title}<br/>
-                Author: {book.author}
-                </Typography>
-              </ButtonBase>
-            </div>
-          )
-      })
-      }
-      <hr style={{maxWidth: "300px"}}/>
-    </div>
-  )}
+      <BookListSuccess 
+        openItem={openItem}
+        changeActiveBook={changeActiveBook}
+        booksdata={state.Books}
+      />
+    )
+  }
 
   if(state.Books.status === types.LOADING_BOOKS) {
     return <Typography>Loading book list</Typography>
@@ -60,6 +48,31 @@ const BookList = ({openItem, changeItem, getBookList}) => {
     <div>No data</div>
   </>
   )
+}
+
+const BookListSuccess = ({openItem, changeActiveBook, booksdata}) => {
+
+  return(
+    <div>
+      <Typography component="h1" variant="h5">List</Typography>
+      {booksdata.BookList.map((book) => {
+        return(
+          <div style={book.id === openItem ? {backgroundColor: "#eeeeee"} : {}} key={book.id}>
+            <hr style={{maxWidth: "300px"}}/>
+            <ButtonBase onClick={() => changeActiveBook(book.id)}>
+              <Typography>
+              Title: {book.title}<br/>
+              Author: {book.author}
+              </Typography>
+            </ButtonBase>
+          </div>
+        )
+        })
+        }
+      <hr style={{maxWidth: "300px"}}/>
+    </div>
+  )
+
 }
 
 export default BookList;
