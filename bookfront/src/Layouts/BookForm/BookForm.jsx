@@ -6,7 +6,7 @@ import Middleware from '../../Api/Middleware';
 import {types} from "../../State/types";
 import Modal from "../../Components/Modal";
 
-const BookForm = ({openItem, getBookList}) => {
+const BookForm = ({openItem, changeItem, getBookList}) => {
   
   const [state, dispatch] = useStateValue();
 
@@ -17,10 +17,6 @@ const BookForm = ({openItem, getBookList}) => {
   const [descriptionWarning, setDescriptionWarning] = useState("");
 
   const [deleteActive, setDeleteActive] = useState(false);
-
-  const [savingNew, setSavingNew] = useState(false);
-  const [savingEditedBook, setSavingEditedBook] = useState(false);
-  const [deletingBook, setDeletingBook] = useState(false);
 
   const [allLengthsOK, setAllLengthsOK] = useState(false);
 
@@ -79,7 +75,9 @@ const BookForm = ({openItem, getBookList}) => {
         type: result.type,
         payload: result.data
       })  
-
+      if (result.type === types.SAVE_NEW_BOOK_SUCCESS) {
+        changeItem(result.data.id);
+      }
       getBookList();
     }
   }
@@ -164,8 +162,8 @@ const BookForm = ({openItem, getBookList}) => {
       <br/>
       <div style={{marginTop:"10px"}}>
         <Button text="Save New" disabled={!(allLengthsOK && state.SaveNewBook.status !== types.SAVING_NEW_BOOK)} onButtonPress={saveNewBook} variant="contained" sxStyle={{margin: "2px"}}/>
-        <Button text="Save" disabled={!(allLengthsOK && state.EditBook.status !== types.EDITING_BOOK)} variant="contained" onButtonPress={saveEditBook} sxStyle={{margin: "2px"}}/>
-        <Button text="Delete" disabled={state.DeleteBook.status === types.DELETING_BOOK} variant="contained" onButtonPress={deleteBook} sxStyle={{margin: "2px"}}/>
+        <Button text="Save" disabled={!(openItem && allLengthsOK && state.EditBook.status !== types.EDITING_BOOK)} variant="contained" onButtonPress={saveEditBook} sxStyle={{margin: "2px"}}/>
+        <Button text="Delete" disabled={!openItem || state.DeleteBook.status === types.DELETING_BOOK} variant="contained" onButtonPress={deleteBook} sxStyle={{margin: "2px"}}/>
       </div>
 
     </div>

@@ -26,18 +26,19 @@ const BookList = ({openItem, changeItem, getBookList}) => {
   if(state.Books.status === types.LOAD_BOOKS_SUCCESS) {
     return(
       <div>
-        <Typography component="h1" variant="h5">List of Books</Typography>
+        <Typography component="h1" variant="h5">List</Typography>
         {state.Books.BookList.map((book) => {
           return(
-          <div style={book.id === openItem ? {backgroundColor: "#eeeeee"} : {}} key={book.id}>
-            <hr style={{maxWidth: "300px"}}/>
-            <ButtonBase onClick={() => changeActiveBook(book.id)}>
-              <Typography>
-              Title: {book.title}<br/>
-              Author: {book.author}
-              </Typography>
-            </ButtonBase>
-          </div>)
+            <div style={book.id === openItem ? {backgroundColor: "#eeeeee"} : {}} key={book.id}>
+              <hr style={{maxWidth: "300px"}}/>
+              <ButtonBase onClick={() => changeActiveBook(book.id)}>
+                <Typography>
+                Title: {book.title}<br/>
+                Author: {book.author}
+                </Typography>
+              </ButtonBase>
+            </div>
+          )
       })
       }
       <hr style={{maxWidth: "300px"}}/>

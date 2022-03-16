@@ -4,6 +4,7 @@ import BookForm from '../BookForm/BookForm';
 import {useStateValue} from '../../State/index';
 import {types} from "../../State/types";
 import Middleware from '../../Api/Middleware';
+import Typography from "@mui/material/Typography";
 
 const ListAndFormLayout = () => {
 
@@ -18,21 +19,31 @@ const ListAndFormLayout = () => {
     }); 
     dispatch({
       type: result.type,
-      payload: result.data,
-      code: result.code
+      payload: result.data
     })  
+    /*if(!openBookItem) {
+      setOpenBookItem(result.data.data[0].id);
+    }*/
   }
 
   return(
-    <div className="flex-container">
-      {openBookItem ? 
+    <>
+      <Typography sx={{margin: "auto", marginTop: "20px"}} component="h1" variant="h5">Books</Typography>
+        <div className="flex-container">   
+          <div style={{flexGrow: 5}}>
+            {(state.Books?.BookList?.length === 0) && 
+              <>
+                <Typography>No books on the list. Add new book?</Typography>
+                <br/>
+              </>
+            }
+            <BookForm openItem={openBookItem} changeItem={setOpenBookItem} getBookList={getBookList}/>
+          </div>
         <div style={{flexGrow: 5}}>
-          <BookForm openItem={openBookItem} getBookList={getBookList}/>
-        </div> : null}
-      <div style={{flexGrow: 5}}>
-        <BookList openItem={openBookItem} changeItem={setOpenBookItem} getBookList={getBookList}/>
+          <BookList openItem={openBookItem} changeItem={setOpenBookItem} getBookList={getBookList}/>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
