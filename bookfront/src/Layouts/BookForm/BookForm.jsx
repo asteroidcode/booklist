@@ -16,13 +16,13 @@ const BookForm = ({openItem, getBookList}) => {
 
   const [descriptionWarning, setDescriptionWarning] = useState("");
 
-  const [newSaveEnabled, setNewSaveEnabled] = useState(false);
-  const [saveEditEnabled, setSaveEditEnabled] = useState(false);
   const [deleteActive, setDeleteActive] = useState(false);
 
   const [savingNew, setSavingNew] = useState(false);
   const [savingEditedBook, setSavingEditedBook] = useState(false);
   const [deletingBook, setDeletingBook] = useState(false);
+
+  const [allLengthsOK, setAllLengthsOK] = useState(false);
 
   useEffect(() => {
     if (!openItem) {
@@ -31,9 +31,8 @@ const BookForm = ({openItem, getBookList}) => {
       setDescription("");
     }
     else {
-      if(state && state.Books.BookList) {
+      if(state && state.Books && state.Books.BookList) {
         const activeBook = state.Books.BookList.find(x => x.id === openItem)
-        console.log("activeBook", activeBook);
         setTitle(activeBook.title);
         setAuthor(activeBook.author);
         setDescription(activeBook.description);
@@ -53,18 +52,18 @@ const BookForm = ({openItem, getBookList}) => {
   useEffect(() => {
     if ( title.length > 0 && author.length > 0 && description.length > -1 &&
       title.length < 201 && author.length < 201 && description.length < 5001) {  
-      setNewSaveEnabled(true);
-      setSaveEditEnabled(true);
+      setAllLengthsOK(true);
+      console.log("ÖK");
     }
     else {
-      setNewSaveEnabled(false);
-      setSaveEditEnabled(false);
+      setAllLengthsOK(false);
+      console.log("Not ök");
     }
   }, [title, author, description]);
 
 
   const saveNewBook = async () => {
-    if(title.length < 201 && author.length < 201 && description.length < 5001) {
+    if(allLengthsOK) {
 
       dispatch({type: types.SAVING_NEW_BOOK});
       const result = await Middleware({
@@ -81,10 +80,7 @@ const BookForm = ({openItem, getBookList}) => {
         payload: result.data
       })  
 
-      //if (result.type === types.SAVE_NEW_BOOK_SUCCESS ||
-      //  result.type === types.SAVE_NEW_BOOK_FAILED) {
-          getBookList();
-      //  }
+      getBookList();
     }
   }
 
@@ -167,8 +163,8 @@ const BookForm = ({openItem, getBookList}) => {
       {descriptionWarning}
       <br/>
       <div style={{marginTop:"10px"}}>
-        <Button text="Save New" disabled={!(newSaveEnabled || state.SaveNewBook.status !== types.SAVING_NEW_BOOK)} onButtonPress={saveNewBook} variant="contained" sxStyle={{margin: "2px"}}/>
-        <Button text="Save" disabled={!(saveEditEnabled || state.EditBook.status !== types.EDITING_BOOK)} variant="contained" onButtonPress={saveEditBook} sxStyle={{margin: "2px"}}/>
+        <Button text="Save New" disabled={!(allLengthsOK && state.SaveNewBook.status !== types.SAVING_NEW_BOOK)} onButtonPress={saveNewBook} variant="contained" sxStyle={{margin: "2px"}}/>
+        <Button text="Save" disabled={!(allLengthsOK && state.EditBook.status !== types.EDITING_BOOK)} variant="contained" onButtonPress={saveEditBook} sxStyle={{margin: "2px"}}/>
         <Button text="Delete" disabled={state.DeleteBook.status === types.DELETING_BOOK} variant="contained" onButtonPress={deleteBook} sxStyle={{margin: "2px"}}/>
       </div>
 
