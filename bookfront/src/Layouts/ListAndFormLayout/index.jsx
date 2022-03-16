@@ -5,6 +5,7 @@ import {useStateValue} from '../../State/index';
 import {types} from "../../State/types";
 import Middleware from '../../Api/Middleware';
 import Typography from "@mui/material/Typography";
+import Modal from "../../Components/Modal";
 
 
 const ListAndFormLayout = () => {
@@ -12,6 +13,8 @@ const ListAndFormLayout = () => {
   const [state, dispatch] = useStateValue();
 
   const [openBookItem, setOpenBookItem] = useState(null);
+
+  const [deleteFailNoti, setDeleteFailNoti] = useState(false);
 
   useEffect(() => {
     getBookList();
@@ -26,9 +29,6 @@ const ListAndFormLayout = () => {
       type: result.type,
       payload: result.data
     })  
-    /*if(!openBookItem) {
-      setOpenBookItem(result.data.data[0].id);
-    }*/
   }
 
   if (!openBookItem && state.Books?.BookList?.length > 0) {
@@ -36,6 +36,7 @@ const ListAndFormLayout = () => {
       <>
         <Typography sx={{margin: "auto", marginTop: "20px"}} component="h1" variant="h5">Books</Typography>
         <BookList openItem={openBookItem} changeItem={setOpenBookItem} getBookList={getBookList}/>
+        <Modal isOpen={deleteFailNoti} onClose={() => setDeleteFailNoti(false)} text="Deleting the book failed"/>
       </>
     )
   }
@@ -52,12 +53,14 @@ const ListAndFormLayout = () => {
                 <br/>
               </>
             }
-            <BookForm openItem={openBookItem} changeItem={setOpenBookItem} getBookList={getBookList}/>
+            <BookForm openItem={openBookItem} changeItem={setOpenBookItem} getBookList={getBookList} showDeleteNoti={() => setDeleteFailNoti(true)}/>
           </div>
         <div style={{flexGrow: 5}}>
           <BookList openItem={openBookItem} changeItem={setOpenBookItem} getBookList={getBookList}/>
         </div>
       </div>
+      
+      <Modal isOpen={deleteFailNoti} onClose={() => setDeleteFailNoti(false)} text="Deleting the book failed"/>
     </>
   )
 }

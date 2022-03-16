@@ -6,7 +6,7 @@ import Middleware from '../../Api/Middleware';
 import {types} from "../../State/types";
 import Modal from "../../Components/Modal";
 
-const BookForm = ({openItem, changeItem, getBookList}) => {
+const BookForm = ({openItem, changeItem, getBookList, showDeleteNoti}) => {
   
   const [state, dispatch] = useStateValue();
 
@@ -17,6 +17,8 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
   const [allLengthsOK, setAllLengthsOK] = useState(false);
 
   const [showSaveNewBookFailNoti, setShowSaveNewBookFailNoti] = useState(false);
+  const [showBookEditFailNoti, setShowBookEditFailNoti] = useState(false);
+  const [deleteFailNoti, setDeleteFailNoti] = useState(false);
 
   useEffect(() => {
     if (!openItem) {
@@ -89,6 +91,9 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
         type: result.type,
         payload: result.data,
       }) 
+      if (result.type === types.EDIT_BOOK_FAILED) {
+        setShowBookEditFailNoti(true);
+      }
       getBookList();
     }
   }
@@ -106,6 +111,7 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
       type: result.type,
       payload: result.data
     }) 
+    showDeleteNoti();
     getBookList();
     changeItem(null);
   }
@@ -158,7 +164,7 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
       </div>
 
       <Modal isOpen={showSaveNewBookFailNoti} onClose={() => setShowSaveNewBookFailNoti(false)} text="Saving the new book data failed"/>
-
+      <Modal isOpen={showBookEditFailNoti} onClose={() => setShowBookEditFailNoti(false)} text="Editing the book data failed"/>
     </div>
 
   )
