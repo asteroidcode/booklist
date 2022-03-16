@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import BookList from '../BookList/BookList';
 import BookForm from '../BookForm/BookForm';
 import {useStateValue} from '../../State/index';
@@ -11,6 +11,10 @@ const ListAndFormLayout = () => {
   const [state, dispatch] = useStateValue();
 
   const [openBookItem, setOpenBookItem] = useState(null);
+
+  useEffect(() => {
+    getBookList();
+  }, []);
 
   const getBookList = async () => {
     dispatch({type: types.LOADING_BOOKS});
@@ -25,6 +29,16 @@ const ListAndFormLayout = () => {
       setOpenBookItem(result.data.data[0].id);
     }*/
   }
+
+  if (!openBookItem && state.Books?.BookList?.length > 0) {
+    return(
+      <>
+        <Typography sx={{margin: "auto", marginTop: "20px"}} component="h1" variant="h5">Books</Typography>
+        <BookList openItem={openBookItem} changeItem={setOpenBookItem} getBookList={getBookList}/>
+      </>
+    )
+  }
+
 
   return(
     <>
