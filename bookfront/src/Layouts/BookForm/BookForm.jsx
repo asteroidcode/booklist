@@ -14,10 +14,6 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
 
-  const [descriptionWarning, setDescriptionWarning] = useState("");
-
-  const [deleteActive, setDeleteActive] = useState(false);
-
   const [allLengthsOK, setAllLengthsOK] = useState(false);
 
   useEffect(() => {
@@ -35,15 +31,6 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
       }
     }
   }, [openItem]);
-
-  useEffect(() => {
-    if (description && description.length > 5000) {
-      setDescriptionWarning("Over the character limit ");
-    }
-    else {
-      setDescriptionWarning("");
-    }
-  }, [description]);
 
   useEffect(() => {
     if ( title.length > 0 && author.length > 0 && description.length > -1 &&
@@ -157,7 +144,6 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
         onChange={(e) => setDescription(e.target.value)}
       />
       { description && <p>{description.length + " / 5000"}</p> }
-      {descriptionWarning}
       <br/>
       <div style={{marginTop:"10px"}}>
         <Button text="Save New" disabled={!(allLengthsOK && state.SaveNewBook.status !== types.SAVING_NEW_BOOK)} onButtonPress={saveNewBook} variant="contained" sxStyle={{margin: "2px"}}/>
