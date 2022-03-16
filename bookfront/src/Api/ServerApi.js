@@ -28,7 +28,7 @@ export const saveEditBook = async (action) => {
 
 export const deleteBook = async (action) => {
   console.log("action deleteBook", action);
-  const response = await axios.delete('api/BookItems/'+action.Id);
+  const response = await axios.delete('api/BookItems/'+action.payload.Id);
   console.log(response);  
   return(response);
 }

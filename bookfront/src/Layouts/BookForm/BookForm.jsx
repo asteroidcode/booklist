@@ -6,7 +6,7 @@ import Middleware from '../../Api/Middleware';
 import {types} from "../../State/types";
 import Modal from "../../Components/Modal";
 
-const BookForm = ({openItem, changeItem, getBookList}) => {
+const BookForm = ({openItem, getBookList}) => {
   
   const [state, dispatch] = useStateValue();
 
@@ -16,7 +16,13 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
 
   const [descriptionWarning, setDescriptionWarning] = useState("");
 
-  const [newSaveActive, setNewSaveActive] = useState(false);
+  const [newSaveEnabled, setNewSaveEnabled] = useState(false);
+  const [saveEditEnabled, setSaveEditEnabled] = useState(false);
+  const [deleteActive, setDeleteActive] = useState(false);
+
+  const [savingNew, setSavingNew] = useState(false);
+  const [savingEditedBook, setSavingEditedBook] = useState(false);
+  const [deletingBook, setDeletingBook] = useState(false);
 
   useEffect(() => {
     if (!openItem) {
@@ -25,9 +31,8 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
       setDescription("");
     }
     else {
-      //console.log("BookList ja openItem", state.BookList, openItem);
-      if(state && state.BookList) {
-        const activeBook = state.BookList.find(x => x.id === openItem)
+      if(state && state.Books.BookList) {
+        const activeBook = state.Books.BookList.find(x => x.id === openItem)
         console.log("activeBook", activeBook);
         setTitle(activeBook.title);
         setAuthor(activeBook.author);
@@ -48,10 +53,12 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
   useEffect(() => {
     if ( title.length > 0 && author.length > 0 && description.length > -1 &&
       title.length < 201 && author.length < 201 && description.length < 5001) {  
-      setNewSaveActive(true);
+      setNewSaveEnabled(true);
+      setSaveEditEnabled(true);
     }
     else {
-      setNewSaveActive(false);
+      setNewSaveEnabled(false);
+      setSaveEditEnabled(false);
     }
   }, [title, author, description]);
 
@@ -73,16 +80,16 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
         payload: result.data
       })  
 
-      if (result.type === types.SAVE_NEW_BOOK_SUCCESS ||
-        result.type === types.SAVE_NEW_BOOK_FAILED) {
+      //if (result.type === types.SAVE_NEW_BOOK_SUCCESS ||
+      //  result.type === types.SAVE_NEW_BOOK_FAILED) {
           getBookList();
-        }
+      //  }
     }
   }
 
   const saveEditBook = async () => {
     if(title.length < 201 && author.length < 201 && description.length < 5001) { 
-
+  
       dispatch({type: types.EDITING_BOOK});
       const result = await Middleware({
         type: types.EDITING_BOOK,
@@ -97,7 +104,7 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
         type: result.type,
         payload: result.data,
       }) 
-
+      getBookList();
     }
   }
 
@@ -114,7 +121,7 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
       type: result.type,
       payload: result.data
     }) 
-
+    getBookList();
   }
 
   return(
@@ -159,9 +166,9 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
       {descriptionWarning}
       <br/>
       <div style={{marginTop:"10px"}}>
-        <Button text="Save New" disabled={!newSaveActive} onButtonPress={saveNewBook} variant="contained" sxStyle={{margin: "2px"}}/>
-        <Button text="Save" variant="contained" onButtonPress={saveEditBook} sxStyle={{margin: "2px"}}/>
-        <Button text="Delete" variant="contained" onButtonPress={deleteBook} sxStyle={{margin: "2px"}}/>
+        <Button text="Save New" disabled={!(newSaveEnabled || state.SaveNewBook.status !== types.SAVING_NEW_BOOK)} onButtonPress={saveNewBook} variant="contained" sxStyle={{margin: "2px"}}/>
+        <Button text="Save" disabled={!(saveEditEnabled || state.EditBook.status !== types.EDITING_BOOK)} variant="contained" onButtonPress={saveEditBook} sxStyle={{margin: "2px"}}/>
+        <Button text="Delete" disabled={state.DeleteBook.status === types.DELETING_BOOK} variant="contained" onButtonPress={deleteBook} sxStyle={{margin: "2px"}}/>
       </div>
 
     </div>

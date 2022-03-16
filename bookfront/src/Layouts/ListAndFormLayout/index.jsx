@@ -27,7 +27,7 @@ const ListAndFormLayout = () => {
     <div className="flex-container">
       {openBookItem ? 
         <div style={{flexGrow: 5}}>
-          <BookForm openItem={openBookItem} changeItem={setOpenBookItem} getBookList={getBookList}/>
+          <BookForm openItem={openBookItem} getBookList={getBookList}/>
         </div> : null}
       <div style={{flexGrow: 5}}>
         <BookList openItem={openBookItem} changeItem={setOpenBookItem} getBookList={getBookList}/>
