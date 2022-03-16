@@ -34,7 +34,7 @@ const ListAndFormLayout = () => {
   if (!openBookItem && state.Books?.BookList?.length > 0) {
     return(
       <>
-        <Typography sx={{margin: "auto", marginTop: "20px"}} component="h1" variant="h5">Books</Typography>
+        <Typography className="mainheader" component="h1" variant="h4">Books</Typography>
         <BookList openItem={openBookItem} changeItem={setOpenBookItem} getBookList={getBookList}/>
         <Modal isOpen={deleteFailNoti} onClose={() => setDeleteFailNoti(false)} text="Deleting the book failed"/>
       </>
@@ -44,7 +44,7 @@ const ListAndFormLayout = () => {
 
   return(
     <>
-      <Typography sx={{margin: "auto", marginTop: "20px"}} component="h1" variant="h5">Books</Typography>
+      <Typography sx={{margin: "auto", marginTop: "20px"}} component="h1" variant="h4">Books</Typography>
         <div className="flex-container">   
           <div style={{flexGrow: 5}}>
             {(state.Books?.BookList?.length === 0) && 

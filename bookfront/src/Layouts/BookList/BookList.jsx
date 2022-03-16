@@ -67,7 +67,7 @@ export const BookListSuccess = ({openItem, changeActiveBook, booksdata}) => {
       <Typography component="h1" variant="h5">List</Typography>
       {booksdata.BookList.map((book, index) => {
         return(
-          <div style={book.id === openItem ? {backgroundColor: "#eeeeee"} : {}} key={book.id}>
+          <div style={book.id === openItem ? {backgroundColor: "#CCDAFD"} : {}} key={book.id}>
            <StyledHr/>
             <ButtonBase onClick={() => changeActiveBook(book.id)}>
               <Typography variant="body2"><span data-testid={"booktitle-" + index}>{book.title}</span><br/>

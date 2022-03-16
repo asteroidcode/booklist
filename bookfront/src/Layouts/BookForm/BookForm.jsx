@@ -157,9 +157,21 @@ const BookForm = ({openItem, changeItem, getBookList, showDeleteNoti}) => {
       <br/>
 
       <div style={{marginTop:"10px"}}>
-        <Button text="Save New" disabled={!(allLengthsOK && state.SaveNewBook.status !== types.SAVING_NEW_BOOK)} onButtonPress={saveNewBook} variant="contained" sxStyle={{margin: "2px"}}/>
-        <Button text="Save" disabled={!(openItem && allLengthsOK && state.EditBook.status !== types.EDITING_BOOK)} variant="contained" onButtonPress={saveEditBook} sxStyle={{margin: "2px"}}/>
-        <Button text="Delete" disabled={!openItem || state.DeleteBook.status === types.DELETING_BOOK} variant="contained" onButtonPress={deleteBook} sxStyle={{margin: "2px"}}/>
+        <Button text="Save New" 
+                disabled={!(allLengthsOK && state.SaveNewBook.status !== types.SAVING_NEW_BOOK)} 
+                onButtonPress={saveNewBook} 
+                variant="contained" 
+                sxStyle={{margin: "2px"}}/>
+        <Button text="Save" 
+                disabled={!(openItem && allLengthsOK && state.EditBook.status !== types.EDITING_BOOK)} 
+                variant="contained" 
+                onButtonPress={saveEditBook} 
+                sxStyle={{margin: "2px"}}/>
+        <Button text="Delete" 
+                disabled={!openItem || state.DeleteBook.status === types.DELETING_BOOK} 
+                variant="contained" 
+                onButtonPress={deleteBook} 
+                sxStyle={{margin: "2px"}}/>
       </div>
 
       <Modal isOpen={showSaveNewBookFailNoti} onClose={() => setShowSaveNewBookFailNoti(false)} text="Saving the new book data failed"/>
