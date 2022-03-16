@@ -49,11 +49,9 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
     if ( title.length > 0 && author.length > 0 && description.length > -1 &&
       title.length < 201 && author.length < 201 && description.length < 5001) {  
       setAllLengthsOK(true);
-      console.log("ÖK");
     }
     else {
       setAllLengthsOK(false);
-      console.log("Not ök");
     }
   }, [title, author, description]);
 
@@ -117,6 +115,7 @@ const BookForm = ({openItem, changeItem, getBookList}) => {
       payload: result.data
     }) 
     getBookList();
+    changeItem(null);
   }
 
   return(

@@ -1,5 +1,5 @@
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useStateValue} from '../../State/index';
 import Button from "../../Components/Button";
 import {types} from "../../State/types";
@@ -10,8 +10,6 @@ const BookList = ({openItem, changeItem, getBookList}) => {
 
   const [state] = useStateValue();
   
-
-
   const changeActiveBook = (bookId) => {
     if (openItem === bookId) {
       changeItem(null);
