@@ -25,9 +25,11 @@ namespace bookrestapi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookItemDTO>>> GetBookItems()
         {
-            return await _context.BookItems
+            var bookList = await _context.BookItems
                 .Select(x => ItemToDTO(x))
                 .ToListAsync();
+
+            return bookList.OrderBy(x => x.Id).ToList();
         }
 
         // GET: api/BookItems/5
