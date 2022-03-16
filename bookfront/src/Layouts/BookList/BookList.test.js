@@ -26,13 +26,13 @@ const books = {BookList: bookarr}
 
 describe("Book List", () => {
   
-  test("BookListSuccess displays second book's Title", () => {
+  test("BookListSuccess displays second book's title", () => {
     render(<BookListSuccess 
       openItem={openItem} 
       changeActiveBook={changeActiveBook}
       booksdata={books}/>);
 
-    expect(screen.getByTestId("booktitle-1")).toHaveTextContent("Title: Lord of the Rings");
+    expect(screen.getByTestId("booktitle-1")).toHaveTextContent("Lord of the Rings");
   });
 
   test("BookListSuccess displays first book's Author", () => {
@@ -41,7 +41,7 @@ describe("Book List", () => {
       changeActiveBook={changeActiveBook}
       booksdata={books}/>);
 
-    expect(screen.getByTestId('bookauthor-0')).toHaveTextContent("J. K. Rowling");
+    expect(screen.getByTestId('bookauthor-0')).toHaveTextContent("By: J. K. Rowling");
   });
 
   test("Clicking BookListSuccess's second button calls changeActiveBook with the right Id", () => {
@@ -50,7 +50,7 @@ describe("Book List", () => {
       changeActiveBook={changeActiveBook}
       booksdata={books}/>);
 
-      fireEvent.click(screen.getByText("Title: Lord of the Rings"));
+      fireEvent.click(screen.getByText("Lord of the Rings"));
 
       expect(changeActiveBook).toHaveBeenCalledWith(17);
   })

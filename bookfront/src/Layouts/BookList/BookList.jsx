@@ -70,8 +70,8 @@ export const BookListSuccess = ({openItem, changeActiveBook, booksdata}) => {
           <div style={book.id === openItem ? {backgroundColor: "#eeeeee"} : {}} key={book.id}>
            <StyledHr/>
             <ButtonBase onClick={() => changeActiveBook(book.id)}>
-              <p data-testid={"booktitle-" + index}>Title: {book.title}</p>
-              <p data-testid={"bookauthor-" + index}>Author: {book.author}</p>
+              <Typography variant="body2"><span data-testid={"booktitle-" + index}>{book.title}</span><br/>
+              <span data-testid={"bookauthor-" + index}>By: {book.author}</span></Typography>
             </ButtonBase>
           </div>
         )

@@ -18,7 +18,6 @@ const BookForm = ({openItem, changeItem, getBookList, showDeleteNoti}) => {
 
   const [showSaveNewBookFailNoti, setShowSaveNewBookFailNoti] = useState(false);
   const [showBookEditFailNoti, setShowBookEditFailNoti] = useState(false);
-  const [deleteFailNoti, setDeleteFailNoti] = useState(false);
 
   useEffect(() => {
     if (!openItem) {
