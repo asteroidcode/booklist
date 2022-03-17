@@ -180,6 +180,7 @@ const BookForm = ({openItem, changeItem, getBookList, showDeleteNoti}) => {
         sx={{marginTop: "1rem", maxWidth:"400px"}}
         onChange={(e) => setDescription(e.target.value)}
       />
+      <br/>
       { description && <span>{description.length + " / 5000"}</span> }
       <br/>
 
