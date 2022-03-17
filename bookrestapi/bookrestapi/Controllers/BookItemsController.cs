@@ -1,4 +1,6 @@
-﻿#nullable disable
+﻿//Based on tutorial at https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio by Rick Anderson and Kirk Larkin and contributors
+
+#nullable disable
 using System;
 using System.Collections.Generic;
 using System.Linq;
