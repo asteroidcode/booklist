@@ -11,9 +11,9 @@ const BookList = ({openItem, changeItem, getBookList}) => {
   const [state] = useStateValue();
 
   
-  useEffect(() => {
+  /*useEffect(() => {
     console.log("state", state);
-  }, [state])
+  }, [state])*/
 
   const changeActiveBook = (bookId) => {
     if (openItem === bookId) {

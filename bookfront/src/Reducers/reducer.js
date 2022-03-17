@@ -2,7 +2,7 @@ import {types} from "../State/types";
 
 export const reducer = (state, action) => {
 
-  console.log("App.js, action", action);
+  //console.log("App.js, action", action);
   
   switch (action.type) {
     case types.LOADING_BOOKS:
