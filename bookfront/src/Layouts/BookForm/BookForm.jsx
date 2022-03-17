@@ -148,6 +148,8 @@ const BookForm = ({openItem, changeItem, getBookList, showDeleteNoti}) => {
         value={title}
         helperText=""
         size="small"
+        fullWidth
+        sx={{maxWidth:"400px"}}
         onChange={(e) => setTitle(e.target.value)}
       />
       <br/>
@@ -159,7 +161,8 @@ const BookForm = ({openItem, changeItem, getBookList, showDeleteNoti}) => {
         value={author}
         helperText=""
         size="small"
-        sx={{marginTop: "1rem"}}
+        fullWidth
+        sx={{marginTop: "1rem", maxWidth:"400px"}}
         onChange={(e) => setAuthor(e.target.value)}
       />
       <br/>
