@@ -110,9 +110,33 @@ const BookForm = ({openItem, changeItem, getBookList, showDeleteNoti}) => {
       type: result.type,
       payload: result.data
     }) 
-    showDeleteNoti();
+    if (result.type === types.DELETE_BOOK_FAILED) {
+      showDeleteNoti();
+    }
     getBookList();
     changeItem(null);
+  }
+
+  const SaveEditDeleteButtons = () => {
+    return(
+      <div style={{marginTop:"10px"}}>
+      <Button text="Save New" 
+              disabled={!(allLengthsOK && state.SaveNewBook.status !== types.SAVING_NEW_BOOK)} 
+              onButtonPress={saveNewBook} 
+              variant="contained" 
+              sxStyle={{margin: "2px"}}/>
+      <Button text="Save" 
+              disabled={!(openItem && allLengthsOK && state.EditBook.status !== types.EDITING_BOOK)} 
+              variant="contained" 
+              onButtonPress={saveEditBook} 
+              sxStyle={{margin: "2px"}}/>
+      <Button text="Delete" 
+              disabled={!openItem || state.DeleteBook.status === types.DELETING_BOOK} 
+              variant="contained" 
+              onButtonPress={deleteBook} 
+              sxStyle={{margin: "2px"}}/>
+      </div>
+    )
   }
 
   return(
@@ -156,23 +180,7 @@ const BookForm = ({openItem, changeItem, getBookList, showDeleteNoti}) => {
       { description && <p>{description.length + " / 5000"}</p> }
       <br/>
 
-      <div style={{marginTop:"10px"}}>
-        <Button text="Save New" 
-                disabled={!(allLengthsOK && state.SaveNewBook.status !== types.SAVING_NEW_BOOK)} 
-                onButtonPress={saveNewBook} 
-                variant="contained" 
-                sxStyle={{margin: "2px"}}/>
-        <Button text="Save" 
-                disabled={!(openItem && allLengthsOK && state.EditBook.status !== types.EDITING_BOOK)} 
-                variant="contained" 
-                onButtonPress={saveEditBook} 
-                sxStyle={{margin: "2px"}}/>
-        <Button text="Delete" 
-                disabled={!openItem || state.DeleteBook.status === types.DELETING_BOOK} 
-                variant="contained" 
-                onButtonPress={deleteBook} 
-                sxStyle={{margin: "2px"}}/>
-      </div>
+      <SaveEditDeleteButtons/>
 
       <Modal isOpen={showSaveNewBookFailNoti} onClose={() => setShowSaveNewBookFailNoti(false)} text="Saving the new book data failed"/>
       <Modal isOpen={showBookEditFailNoti} onClose={() => setShowBookEditFailNoti(false)} text="Editing the book data failed"/>

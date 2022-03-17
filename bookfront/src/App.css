@@ -48,8 +48,6 @@
   font-size: 10px;
 }
 
-.mainheader {
-  margin: auto; 
-  margin-top: 20px; 
-  margin-bottom: 10px;
+.hr {
+  max-width: 300px;
 }

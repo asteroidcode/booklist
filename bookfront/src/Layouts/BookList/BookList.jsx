@@ -57,7 +57,7 @@ const BookList = ({openItem, changeItem, getBookList}) => {
 }
 
 const StyledHr = () => {
-  return( <hr style={{maxWidth: "300px"}}/>)
+  return( <hr className="hr"/>)
 }
 
 export const BookListSuccess = ({openItem, changeActiveBook, booksdata}) => {
